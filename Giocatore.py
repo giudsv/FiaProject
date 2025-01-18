@@ -115,40 +115,45 @@ class Giocatore:
         if not self.carte_mano:
             return False
 
-        try:
-            scelta = int(input(f"\nScegli una carta da giocare (1-{len(self.carte_mano)}): "))
-            if not (1 <= scelta <= len(self.carte_mano)):
-                print("⚠️  Scelta non valida.")
-                time.sleep(1)
-                return False
+        while True:  # Continua a chiedere input finché non è valido
+            try:
+                scelta = input(f"\nScegli una carta da giocare (1-{len(self.carte_mano)}): ")
+                if scelta.lower() == 'q':  # Opzionale: permette di uscire dal gioco
+                    raise KeyboardInterrupt
 
-            carta_da_giocare = self.carte_mano[scelta - 1]
-            prese_possibili = self.cerca_prese_possibili(carta_da_giocare, tavolo.carte)
-            ha_fatto_presa = False
+                scelta = int(scelta)
+                if not (1 <= scelta <= len(self.carte_mano)):
+                    print("⚠️  Scelta non valida. Inserisci un numero tra 1 e", len(self.carte_mano))
+                    time.sleep(1)
+                    continue  # Torna all'inizio del ciclo while
 
-            if prese_possibili:
-                if len(prese_possibili) == 1:
-                    self.raccogli_carte(carta_da_giocare, prese_possibili[0], tavolo)
-                    print(f"\n✅ Presa automatica: {' + '.join(str(carta) for carta in prese_possibili[0])}")
-                    ha_fatto_presa = True
+                carta_da_giocare = self.carte_mano[scelta - 1]
+                prese_possibili = self.cerca_prese_possibili(carta_da_giocare, tavolo.carte)
+                ha_fatto_presa = False
+
+                if prese_possibili:
+                    if len(prese_possibili) == 1:
+                        self.raccogli_carte(carta_da_giocare, prese_possibili[0], tavolo)
+                        print(f"\n✅ Presa automatica: {' + '.join(str(carta) for carta in prese_possibili[0])}")
+                        ha_fatto_presa = True
+                    else:
+                        self.mostra_combinazioni(carta_da_giocare, prese_possibili)
+                        scelta_presa = self.get_valid_choice(len(prese_possibili))
+                        self.raccogli_carte(carta_da_giocare, prese_possibili[scelta_presa - 1], tavolo)
+                        print("\n✅ Carte raccolte con successo!")
+                        ha_fatto_presa = True
                 else:
-                    self.mostra_combinazioni(carta_da_giocare, prese_possibili)
-                    scelta_presa = self.get_valid_choice(len(prese_possibili))
-                    self.raccogli_carte(carta_da_giocare, prese_possibili[scelta_presa - 1], tavolo)
-                    print("\n✅ Carte raccolte con successo!")
-                    ha_fatto_presa = True
-            else:
-                tavolo.aggiungi_carta_da_giocatore(carta_da_giocare)
-                print("\n📌 Nessuna presa possibile, carta lasciata sul tavolo")
+                    tavolo.aggiungi_carta_da_giocatore(carta_da_giocare)
+                    print("\n📌 Nessuna presa possibile, carta lasciata sul tavolo")
 
-            self.carte_mano.remove(carta_da_giocare)
-            time.sleep(1.5)
-            return ha_fatto_presa
+                self.carte_mano.remove(carta_da_giocare)
+                time.sleep(1.5)
+                return ha_fatto_presa
 
-        except ValueError:
-            print("⚠️  Input non valido. Inserisci un numero.")
-            time.sleep(1)
-            return False
+            except ValueError:
+                print("⚠️  Input non valido. Inserisci un numero.")
+                time.sleep(1)
+                continue
 
     def mostra_mano(self):
         """Stampa le carte in mano del giocatore con un indice dinamico."""
