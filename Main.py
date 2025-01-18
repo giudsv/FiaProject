@@ -2,6 +2,7 @@ from Carta import Carta
 from Mazzo import Mazzo
 from Tavolo import Tavolo
 from Giocatore import Giocatore
+from Punteggio import Punteggio
 import os
 import time
 
@@ -54,7 +55,7 @@ def distribuisci_carte(mazzo, tavolo, giocatori, num_carte):
 
 
 def mostra_stato_gioco(giocatore_num, tavolo, giocatore_attivo, giocatore_inattivo):
-    """Mostra lo stato corrente del gioco con la nuova interfaccia."""
+    """Mostra lo stato corrente del gioco."""
     clear_screen()
     print("""    ╔═══════════════════════════════════════════╗
     ║             GIOCO DELLA SCOPA             ║
@@ -85,20 +86,45 @@ def mostra_stato_gioco(giocatore_num, tavolo, giocatore_attivo, giocatore_inatti
     print("══════════════════════════════════════════════════")
 
 
-def main():
-    clear_screen()
-    print_banner()
+def mostra_punteggio_round(punteggi_g1, punteggi_g2):
+    """Mostra i punteggi dettagliati del round"""
+    print("\n📊 Punteggi del round:")
+    print("\nCategoria       Giocatore 1  Giocatore 2")
+    print("═" * 45)
+    categorie = ['carte_lungo', 'denari', 'settebello', 'scope', 'primiera', 'totale']
+    nomi = {
+        'carte_lungo': 'Carte lungo',
+        'denari': 'Denari',
+        'settebello': 'Settebello',
+        'scope': 'Scope',
+        'primiera': 'Primiera',
+        'totale': 'TOTALE'
+    }
 
-    # Inizializzazione del gioco con 2 giocatori fissi
+    for categoria in categorie:
+        nome = nomi[categoria]
+        g1 = punteggi_g1[categoria]
+        g2 = punteggi_g2[categoria]
+        print(f"{nome:<14} {g1:^11} {g2:^11}")
+
+
+def mostra_punteggio_totale(punteggio_g1, punteggio_g2):
+    """Mostra il punteggio totale della partita"""
+    print("\n🏆 PUNTEGGIO TOTALE PARTITA:")
+    print(f"Giocatore 1: {punteggio_g1.punteggio_totale}")
+    print(f"Giocatore 2: {punteggio_g2.punteggio_totale}")
+
+
+def gioca_round(giocatori, punteggi):
+    """Gestisce un singolo round di gioco"""
     mazzo = Mazzo()
     tavolo = Tavolo()
-    giocatori = [Giocatore(), Giocatore()]
     ultimo_giocatore_presa = None
 
     # Distribuzione iniziale
     distribuisci_carte(mazzo, tavolo, giocatori, 3)
 
-    # Ciclo di gioco
+    # Ciclo di gioco del round
     turno = 0
     while True:
         # Controlla se è necessario ridistribuire le carte
@@ -125,7 +151,6 @@ def main():
 
         # Gestione del turno
         if len(giocatore_corrente.carte_mano) > 0:
-            # Gestisci la presa e aggiorna l'ultimo giocatore che ha fatto presa
             if giocatore_corrente.gioca_mano(tavolo):
                 ultimo_giocatore_presa = turno % 2
 
@@ -133,15 +158,58 @@ def main():
 
         turno += 1
 
-    # Fine del gioco
+    # Calcolo punteggi del round
+    punti_g1, dettagli_g1 = punteggi[0].calcola_punteggio_round(giocatori[0], giocatori[1])
+    punti_g2, dettagli_g2 = punteggi[1].calcola_punteggio_round(giocatori[1], giocatori[0])
+
+    # Aggiorna i punteggi totali
+    punteggi[0].aggiungi_punteggio(punti_g1)
+    punteggi[1].aggiungi_punteggio(punti_g2)
+
+    return dettagli_g1, dettagli_g2
+
+
+def main():
     clear_screen()
     print_banner()
-    print("\n🏁 Partita terminata!")
-    print("\n📊 Punteggi finali:")
-    for i, giocatore in enumerate(giocatori, 1):
-        print(f"\nGiocatore {i}:")
-        print(f"Scope: {giocatore.scope}")
-        print(f"Carte raccolte: {len(giocatore.carte_raccolte)}")
+
+    # Inizializzazione dei giocatori e punteggi
+    giocatori = [Giocatore(), Giocatore()]
+    punteggi = [Punteggio(), Punteggio()]
+
+    round_num = 1
+    while True:
+        print(f"\n🎮 Round {round_num}")
+        print_separator()
+
+        # Gioca il round
+        dettagli_g1, dettagli_g2 = gioca_round(giocatori, punteggi)
+
+        # Mostra i punteggi del round
+        clear_screen()
+        print_banner()
+        print(f"\n🎯 Fine del Round {round_num}!")
+        mostra_punteggio_round(dettagli_g1, dettagli_g2)
+        mostra_punteggio_totale(punteggi[0], punteggi[1])
+
+        # Controlla se qualcuno ha raggiunto o superato 11 punti
+        if punteggi[0].punteggio_totale >= 11 or punteggi[1].punteggio_totale >= 11:
+            print("\n🏆 PARTITA CONCLUSA! 🏆")
+            # Se entrambi hanno superato 11 punti, vince chi ha il punteggio più alto
+            if punteggi[0].punteggio_totale > punteggi[1].punteggio_totale:
+                print("Vince il Giocatore 1!")
+            else:
+                print("Vince il Giocatore 2!")
+            break
+
+        # Prepara il prossimo round
+        round_num += 1
+        for giocatore in giocatori:
+            giocatore.carte_mano = []
+            giocatore.carte_raccolte = []
+            giocatore.scope = 0
+
+        input("\nPremi Enter per iniziare il prossimo round...")
 
     print_separator()
     input("\nPremi Enter per uscire...")
