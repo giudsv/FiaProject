@@ -6,12 +6,19 @@ class Carta:
         'S': 'Spade'
     }
 
-    def __init__(self, valore, seme):
-        self.valore=valore
-        self.seme=seme
+    def __init__(self, seme, valore):
+        self.seme = seme
+        # Assicuriamoci che il valore sia un intero
+        self.valore = int(valore)
 
     def __str__(self):
         return f"{self.seme} {self.valore}"
+
+    def __eq__(self, other):
+        """Confronta due oggetti Carta per vedere se sono uguali."""
+        if isinstance(other, Carta):
+            return self.valore == other.valore and self.seme == other.seme
+        return False
 
     @classmethod
     def da_sigla(cls, sigla):
@@ -25,4 +32,3 @@ class Carta:
             return cls(seme, valore)
         else:
             raise ValueError("Sigla non valida.")
-

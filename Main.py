@@ -2,56 +2,154 @@ from Carta import Carta
 from Mazzo import Mazzo
 from Tavolo import Tavolo
 from Giocatore import Giocatore
+import os
+import time
+
+
+def clear_screen():
+    """Pulisce lo schermo del terminale in modo cross-platform."""
+    if os.name == 'nt':  # Per Windows
+        os.system('cls')
+    else:  # Per Unix/Linux/MacOS
+        try:
+            os.system('clear')
+        except:
+            print('\n' * 100)  # Fallback se clear non funziona
+
+
+def print_banner():
+    """Stampa il banner del gioco."""
+    banner = """
+    ╔═══════════════════════════════════════════╗
+    ║             GIOCO DELLA SCOPA             ║
+    ╚═══════════════════════════════════════════╝
+    """
+    print(banner)
+
+
+def print_separator():
+    """Stampa un separatore decorativo."""
+    print("\n" + "═" * 50 + "\n")
+
+
+def distribuisci_carte(mazzo, tavolo, giocatori, num_carte):
+    """Distribuisce le carte ai giocatori e sul tavolo."""
+    # Prima distribuisci le carte sul tavolo
+    if tavolo.carte == []:  # Solo se il tavolo è vuoto
+        print("\n🎴 Distribuisco le carte sul tavolo...")
+        for _ in range(4):
+            if mazzo.carte:
+                carta = mazzo.carte[0]
+                tavolo.aggiungi_carta_da_mazzo(carta, mazzo)
+        time.sleep(1)
+
+    # Poi distribuisci ai giocatori
+    print("🎴 Distribuisco le carte ai giocatori...")
+    for giocatore in giocatori:
+        for _ in range(num_carte):
+            if mazzo.carte:
+                carta = mazzo.carte[0]
+                giocatore.aggiungi_mano(carta, mazzo)
+    time.sleep(1)
+
+
+def mostra_stato_gioco(giocatore_num, tavolo, giocatore_attivo, giocatore_inattivo):
+    """Mostra lo stato corrente del gioco con la nuova interfaccia."""
+    clear_screen()
+    print("""    ╔═══════════════════════════════════════════╗
+    ║             GIOCO DELLA SCOPA             ║
+    ╚═══════════════════════════════════════════╝""")
+
+    print(f"\n👤 Turno del Giocatore {giocatore_num}")
+    print(f"🎯 Scope: {giocatore_attivo.scope}")
+    print(f"📦 Carte raccolte: {len(giocatore_attivo.carte_raccolte)}")
+    print("══════════════════════════════════════════════════")
+
+    # Se è il giocatore 1
+    if giocatore_num == 1:
+        print("🎮 Le tue carte (Giocatore 1):")
+        giocatore_attivo.mostra_mano()
+        print("\n📍 Carte sul tavolo:")
+        tavolo.stampa_carte()
+        print("\n🎮 Giocatore 2:")
+        print("[Carte nascoste]")
+    # Se è il giocatore 2
+    else:
+        print("🎮 Giocatore 1:")
+        print("[Carte nascoste]")
+        print("\n📍 Carte sul tavolo:")
+        tavolo.stampa_carte()
+        print("\n🎮 Le tue carte (Giocatore 2):")
+        giocatore_attivo.mostra_mano()
+
+    print("══════════════════════════════════════════════════")
+
 
 def main():
-    # Creiamo un mazzo
+    clear_screen()
+    print_banner()
+
+    # Inizializzazione del gioco con 2 giocatori fissi
     mazzo = Mazzo()
-
-    # Stampa il mazzo iniziale
-    print("Mazzo iniziale:")
-    mazzo.stampa_mazzo()
-
-    # Crea un tavolo e un giocatore
     tavolo = Tavolo()
-    giocatore = Giocatore()
+    giocatori = [Giocatore(), Giocatore()]
+    ultimo_giocatore_presa = None
 
-    # Aggiungi le prime 4 carte al tavolo
-    print("\nAggiungo le prime 4 carte al tavolo:")
-    for carta in mazzo.carte[:4]:  # Aggiungi solo le prime 4 carte
-        tavolo.aggiungi_carta(carta, mazzo)
+    # Distribuzione iniziale
+    distribuisci_carte(mazzo, tavolo, giocatori, 3)
 
-    # Stampa le carte sul tavolo
-    print("\nCarte sul tavolo dopo l'aggiunta:")
-    tavolo.stampa_carte()
+    # Ciclo di gioco
+    turno = 0
+    while True:
+        # Controlla se è necessario ridistribuire le carte
+        if all(len(g.carte_mano) == 0 for g in giocatori):
+            if len(mazzo.carte) > 0:
+                print("\n🎴 Distribuisco nuove carte...")
+                distribuisci_carte(mazzo, tavolo, giocatori, 3)
+                time.sleep(1)
+            else:
+                # Assegna le carte rimanenti all'ultimo giocatore che ha fatto presa
+                if ultimo_giocatore_presa is not None and tavolo.carte:
+                    print(f"\nLe carte rimanenti vanno al Giocatore {ultimo_giocatore_presa + 1}")
+                    for carta in tavolo.carte[:]:
+                        giocatori[ultimo_giocatore_presa].carte_raccolte.append(carta)
+                        tavolo.elimina_carta(carta)
+                break
 
-    # Aggiungi una carta alla mano del giocatore
-    print("\nAggiungo la prima carta alla mano del giocatore:")
-    giocatore.aggiungi_mano(mazzo.carte[0], mazzo)
+        giocatore_corrente = giocatori[turno % 2]
+        giocatore_inattivo = giocatori[(turno + 1) % 2]
+        giocatore_num = (turno % 2) + 1
 
-    # Stampa le carte in mano al giocatore
-    print("\nCarte in mano al giocatore:")
-    for carta in giocatore.carte_mano:
-        print(carta)
+        # Mostra lo stato del gioco
+        mostra_stato_gioco(giocatore_num, tavolo, giocatore_corrente, giocatore_inattivo)
 
-    # Stampa il mazzo dopo che sono state distribuite alcune carte
-    print("\nMazzo dopo la distribuzione:")
-    mazzo.stampa_mazzo()
+        # Gestione del turno
+        if len(giocatore_corrente.carte_mano) > 0:
+            # Gestisci la presa e aggiorna l'ultimo giocatore che ha fatto presa
+            if giocatore_corrente.gioca_mano(tavolo):
+                ultimo_giocatore_presa = turno % 2
 
-    # Rimuovi una carta dal tavolo
-    print("\nRimuovo una carta dal tavolo (ad esempio la prima carta):")
-    tavolo.elimina_carta(tavolo.carte[0])
+            input("\nPremi Enter per continuare...")
 
-    # Stampa le carte sul tavolo dopo la rimozione
-    print("\nCarte sul tavolo dopo la rimozione:")
-    tavolo.stampa_carte()
+        turno += 1
 
-    # Rimuovi una carta dal mazzo (ad esempio la seconda carta)
-    print("\nRimuovo una carta dal mazzo (ad esempio la seconda carta):")
-    mazzo.elimina_carta(mazzo.carte[1])
+    # Fine del gioco
+    clear_screen()
+    print_banner()
+    print("\n🏁 Partita terminata!")
+    print("\n📊 Punteggi finali:")
+    for i, giocatore in enumerate(giocatori, 1):
+        print(f"\nGiocatore {i}:")
+        print(f"Scope: {giocatore.scope}")
+        print(f"Carte raccolte: {len(giocatore.carte_raccolte)}")
 
-    # Stampa il mazzo dopo la rimozione
-    print("\nMazzo dopo la rimozione di una carta:")
-    mazzo.stampa_mazzo()
+    print_separator()
+    input("\nPremi Enter per uscire...")
+
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        clear_screen()
+        print("\n\n👋 Grazie per aver giocato! Arrivederci!\n")
