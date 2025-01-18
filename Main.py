@@ -35,8 +35,8 @@ def print_separator():
 
 def distribuisci_carte(mazzo, tavolo, giocatori, num_carte):
     """Distribuisce le carte ai giocatori e sul tavolo."""
-    # Prima distribuisci le carte sul tavolo
-    if tavolo.carte == []:  # Solo se il tavolo è vuoto
+    # Prima distribuisci le carte sul tavolo solo all'inizio della partita
+    if tavolo.carte == [] and all(len(g.carte_raccolte) == 0 for g in giocatori):  # Controlla se è l'inizio della partita
         print("\n🎴 Distribuisco le carte sul tavolo...")
         for _ in range(4):
             if mazzo.carte:
@@ -86,13 +86,106 @@ def mostra_stato_gioco(giocatore_num, tavolo, giocatore_attivo, giocatore_inatti
     print("══════════════════════════════════════════════════")
 
 
-def mostra_punteggio_round(punteggi_g1, punteggi_g2):
-    """Mostra i punteggi dettagliati del round"""
+def ordina_carte_per_seme(carte):
+    """Ordina le carte per seme e valore"""
+    carte_per_seme = {
+        'Bastoni': [],
+        'Coppe': [],
+        'Denari': [],
+        'Spade': []
+    }
+
+    # Raggruppa le carte per seme
+    for carta in carte:
+        carte_per_seme[carta.seme].append(carta)
+
+    # Ordina le carte di ogni seme per valore
+    for seme in carte_per_seme:
+        carte_per_seme[seme].sort(key=lambda x: x.valore)
+
+    return carte_per_seme
+
+
+def mostra_carte_raccolte(giocatore_num, carte):
+    """Mostra le carte raccolte ordinate per seme"""
+    print(f"\n🎮 Carte raccolte dal Giocatore {giocatore_num}:")
+    print("═" * 45)
+
+    carte_ordinate = ordina_carte_per_seme(carte)
+    for seme, carte_seme in carte_ordinate.items():
+        if carte_seme:  # Mostra il seme solo se ci sono carte
+            print(f"\n{seme}:", end=" ")
+            valori = [str(carta.valore) for carta in carte_seme]
+            print(", ".join(valori))
+
+
+def spiega_punteggio(g1_details, g2_details):
+    """Spiega come sono stati assegnati i punteggi"""
+    print("\n📝 Dettaglio punteggi:")
+    print("═" * 45)
+
+    # Carte lungo
+    print(f"\n• Carte raccolte:")
+    print(f"  Giocatore 1: {g1_details['carte_giocatore']} carte")
+    print(f"  Giocatore 2: {g2_details['carte_giocatore']} carte")
+    if g1_details['carte_lungo']:
+        print("  ➜ Punto carte lungo al Giocatore 1")
+    elif g2_details['carte_lungo']:
+        print("  ➜ Punto carte lungo al Giocatore 2")
+    else:
+        print("  ➜ Nessun punto assegnato (parità)")
+
+    # Denari
+    print(f"\n• Carte di denari:")
+    print(f"  Giocatore 1: {g1_details['denari']} denari")
+    print(f"  Giocatore 2: {g2_details['denari']} denari")  # Modificato per usare denari invece di denari_avversario
+    if g1_details['denari'] > g2_details['denari']:
+        print("  ➜ Punto denari al Giocatore 1")
+    elif g2_details['denari'] > g1_details['denari']:
+        print("  ➜ Punto denari al Giocatore 2")
+    else:
+        print("  ➜ Nessun punto assegnato (parità)")
+
+    # Settebello
+    print("\n• Settebello (7 di denari):")
+    if g1_details['settebello']:
+        print("  ➜ Punto settebello al Giocatore 1")
+    elif g2_details['settebello']:
+        print("  ➜ Punto settebello al Giocatore 2")
+    else:
+        print("  ➜ Nessun punto assegnato")
+
+    # Scope
+    if g1_details['scope'] > 0 or g2_details['scope'] > 0:
+        print("\n• Scope:")
+        if g1_details['scope'] > 0:
+            print(f"  ➜ {g1_details['scope']} punti al Giocatore 1")
+        if g2_details['scope'] > 0:
+            print(f"  ➜ {g2_details['scope']} punti al Giocatore 2")
+    else:
+        print("\n• Scope:")
+        print("  ➜ Nessuna scopa realizzata")
+
+    # Primiera
+    print("\n• Primiera:")
+    print(f"  Giocatore 1: {g1_details['punteggio_primiera']} punti")
+    print(f"  Giocatore 2: {g2_details['punteggio_primiera_avv']} punti")
+    if g1_details['primiera']:
+        print("  ➜ Punto primiera al Giocatore 1")
+    elif g2_details['primiera']:
+        print("  ➜ Punto primiera al Giocatore 2")
+    else:
+        print("  ➜ Nessun punto assegnato (parità)")
+
+
+def mostra_punteggio_round(punteggi_g1, punteggi_g2, giocatori):
+    """Mostra i punteggi dettagliati del round e le carte raccolte"""
     print("\n📊 Punteggi del round:")
     print("\nCategoria       Giocatore 1  Giocatore 2")
     print("═" * 45)
-    categorie = ['carte_lungo', 'denari', 'settebello', 'scope', 'primiera', 'totale']
-    nomi = {
+
+    # Definizione delle categorie e loro nomi per la visualizzazione
+    categorie = {
         'carte_lungo': 'Carte lungo',
         'denari': 'Denari',
         'settebello': 'Settebello',
@@ -101,18 +194,32 @@ def mostra_punteggio_round(punteggi_g1, punteggi_g2):
         'totale': 'TOTALE'
     }
 
-    for categoria in categorie:
-        nome = nomi[categoria]
-        g1 = punteggi_g1[categoria]
-        g2 = punteggi_g2[categoria]
+    # Stampa ogni categoria con il suo punteggio
+    for chiave, nome in categorie.items():
+        g1 = punteggi_g1[chiave]
+        # Per il giocatore 2, gestisci il caso speciale dei denari
+        if chiave == 'denari':
+            g2 = punteggi_g2['denari']  # Usa il valore diretto dei denari
+        else:
+            g2 = punteggi_g2[chiave]
+
+        # Formatta l'output con spaziatura fissa
         print(f"{nome:<14} {g1:^11} {g2:^11}")
+
+    # Mostra le carte raccolte
+    mostra_carte_raccolte(1, giocatori[0].carte_raccolte)
+    mostra_carte_raccolte(2, giocatori[1].carte_raccolte)
+
+    # Spiega l'assegnazione dei punteggi
+    spiega_punteggio(punteggi_g1, punteggi_g2)
 
 
 def mostra_punteggio_totale(punteggio_g1, punteggio_g2):
     """Mostra il punteggio totale della partita"""
     print("\n🏆 PUNTEGGIO TOTALE PARTITA:")
-    print(f"Giocatore 1: {punteggio_g1.punteggio_totale}")
-    print(f"Giocatore 2: {punteggio_g2.punteggio_totale}")
+    print("═" * 45)
+    print(f"Giocatore 1: {punteggio_g1.punteggio_totale} punti")
+    print(f"Giocatore 2: {punteggio_g2.punteggio_totale} punti")
 
 
 def gioca_round(giocatori, punteggi):
@@ -120,6 +227,7 @@ def gioca_round(giocatori, punteggi):
     mazzo = Mazzo()
     tavolo = Tavolo()
     ultimo_giocatore_presa = None
+    primo_giro = True  # Flag per tracciare se siamo al primo giro
 
     # Distribuzione iniziale
     distribuisci_carte(mazzo, tavolo, giocatori, 3)
@@ -131,7 +239,12 @@ def gioca_round(giocatori, punteggi):
         if all(len(g.carte_mano) == 0 for g in giocatori):
             if len(mazzo.carte) > 0:
                 print("\n🎴 Distribuisco nuove carte...")
-                distribuisci_carte(mazzo, tavolo, giocatori, 3)
+                # Distribuisci solo ai giocatori, non sul tavolo
+                for giocatore in giocatori:
+                    for _ in range(3):
+                        if mazzo.carte:
+                            carta = mazzo.carte[0]
+                            giocatore.aggiungi_mano(carta, mazzo)
                 time.sleep(1)
             else:
                 # Assegna le carte rimanenti all'ultimo giocatore che ha fatto presa
@@ -189,7 +302,7 @@ def main():
         clear_screen()
         print_banner()
         print(f"\n🎯 Fine del Round {round_num}!")
-        mostra_punteggio_round(dettagli_g1, dettagli_g2)
+        mostra_punteggio_round(dettagli_g1, dettagli_g2, giocatori)
         mostra_punteggio_totale(punteggi[0], punteggi[1])
 
         # Controlla se qualcuno ha raggiunto o superato 11 punti
@@ -221,3 +334,5 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         clear_screen()
         print("\n\n👋 Grazie per aver giocato! Arrivederci!\n")
+
+

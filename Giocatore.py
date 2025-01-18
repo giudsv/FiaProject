@@ -98,14 +98,16 @@ class Giocatore:
 
     def raccogli_carte(self, carta_giocata, carte_prese, tavolo):
         """Raccoglie le carte dal tavolo"""
+        # Prima rimuoviamo le carte dal tavolo
+        for carta in carte_prese:
+            tavolo.elimina_carta(carta)
+            self.carte_raccolte.append(carta)
+
+        # Poi aggiungiamo la carta giocata alle carte raccolte
         self.carte_raccolte.append(carta_giocata)
 
-        for carta in carte_prese:
-            self.carte_raccolte.append(carta)
-            tavolo.elimina_carta(carta)
-
-        # La scopa viene assegnata solo se non è l'ultima mano
-        if not tavolo.carte and len(self.carte_mano) > 0:
+        # La scopa viene assegnata solo se il tavolo è vuoto e non è l'ultima mano
+        if len(tavolo.carte) == 0 and len(self.carte_mano) > 0:
             self.scope += 1
             print("\n🌟 SCOPA! 🌟")
             time.sleep(1.5)

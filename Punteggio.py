@@ -46,31 +46,31 @@ class Punteggio:
             carte_per_seme[carta.seme].append(carta)
 
         # Trova il valore massimo per ogni seme
-        punteggio_totale = 0
+        punteggi_per_seme = {}
         for seme, carte in carte_per_seme.items():
             if carte:  # Se ci sono carte per questo seme
                 max_valore = max(
                     self.calcola_valore_primiera(carta.valore)
                     for carta in carte
                 )
-                punteggio_totale += max_valore
+                punteggi_per_seme[seme] = max_valore
+            else:
+                # Aggiungiamo 0 per i semi mancanti
+                punteggi_per_seme[seme] = 0
 
-        return punteggio_totale
+        return sum(punteggi_per_seme.values()), punteggi_per_seme
 
     def calcola_punteggio_round(self, giocatore, giocatore_avversario):
         """Calcola il punteggio totale per un round"""
-        punteggio_round = 0
-
         # Punto per carte lungo
-        carte_lungo = self.calcola_carte_lungo(
-            len(giocatore.carte_raccolte),
-            len(giocatore_avversario.carte_raccolte)
-        )
+        carte_giocatore = len(giocatore.carte_raccolte)
+        carte_avversario = len(giocatore_avversario.carte_raccolte)
+        carte_lungo = self.calcola_carte_lungo(carte_giocatore, carte_avversario)
 
         # Punto per denari
-        denari = self.calcola_denari(giocatore.carte_raccolte)
+        denari_giocatore = self.calcola_denari(giocatore.carte_raccolte)
         denari_avversario = self.calcola_denari(giocatore_avversario.carte_raccolte)
-        punto_denari = 1 if denari > denari_avversario else 0
+        punto_denari = 1 if denari_giocatore > denari_avversario else 0
 
         # Punto per settebello
         punto_settebello = 1 if self.ha_settebello(giocatore.carte_raccolte) else 0
@@ -79,9 +79,10 @@ class Punteggio:
         punti_scope = giocatore.scope
 
         # Punto per primiera
-        punteggio_primiera = self.calcola_primiera(giocatore.carte_raccolte)
-        punteggio_primiera_avversario = self.calcola_primiera(giocatore_avversario.carte_raccolte)
-        punto_primiera = 1 if punteggio_primiera > punteggio_primiera_avversario else 0
+        punteggio_primiera, dettagli_primiera = self.calcola_primiera(giocatore.carte_raccolte)
+        punteggio_primiera_avv, dettagli_primiera_avv = self.calcola_primiera(giocatore_avversario.carte_raccolte)
+        # Modifica: assegna punto primiera solo se il punteggio è strettamente maggiore
+        punto_primiera = 1 if punteggio_primiera > punteggio_primiera_avv else 0
 
         # Somma tutti i punti
         punteggio_round = (
@@ -94,10 +95,17 @@ class Punteggio:
 
         return punteggio_round, {
             'carte_lungo': carte_lungo,
-            'denari': punto_denari,
+            'carte_giocatore': carte_giocatore,
+            'carte_avversario': carte_avversario,
+            'denari': denari_giocatore,
+            'denari_avversario': denari_avversario,
             'settebello': punto_settebello,
             'scope': punti_scope,
             'primiera': punto_primiera,
+            'punteggio_primiera': punteggio_primiera,
+            'punteggio_primiera_avv': punteggio_primiera_avv,
+            'dettagli_primiera': dettagli_primiera,
+            'dettagli_primiera_avv': dettagli_primiera_avv,
             'totale': punteggio_round
         }
 
