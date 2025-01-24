@@ -117,6 +117,24 @@ class Giocatore:
         if not self.carte_mano:
             return False
 
+        # Se è presente un agente IA, usa l'IA per giocare
+        if hasattr(self, 'agente_ia'):
+            carta_da_giocare = self.agente_ia.scegli_mossa(tavolo)
+            prese_possibili = self.cerca_prese_possibili(carta_da_giocare, tavolo.carte)
+
+            if prese_possibili:
+                # Scegli automaticamente la miglior presa
+                miglior_presa = max(prese_possibili, key=lambda x: (len(x), sum(c.valore for c in x)))
+                self.raccogli_carte(carta_da_giocare, miglior_presa, tavolo)
+                print(
+                    f"\n🤖 IA ha giocato {carta_da_giocare} e raccolto: {' + '.join(str(carta) for carta in miglior_presa)}")
+            else:
+                tavolo.aggiungi_carta_da_giocatore(carta_da_giocare)
+                print(f"\n🤖 IA ha lasciato {carta_da_giocare} sul tavolo")
+
+            self.carte_mano.remove(carta_da_giocare)
+            return bool(prese_possibili)
+
         while True:  # Continua a chiedere input finché non è valido
             try:
                 scelta = input(f"\nScegli una carta da giocare (1-{len(self.carte_mano)}): ")

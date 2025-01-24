@@ -26,3 +26,6 @@ class Tavolo:
     def stampa_carte(self):
         for carta in self.carte:
             print(carta)
+
+
+

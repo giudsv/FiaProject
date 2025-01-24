@@ -3,6 +3,7 @@ from Mazzo import Mazzo
 from Tavolo import Tavolo
 from Giocatore import Giocatore
 from Punteggio import Punteggio
+from AgenteMontecarlo import AgenteMonteCarlo
 import os
 import time
 
@@ -229,6 +230,9 @@ def gioca_round(giocatori, punteggi):
     ultimo_giocatore_presa = None
     primo_giro = True  # Flag per tracciare se siamo al primo giro
 
+    # Aggiungi l'AgenteMonteCarlo al secondo giocatore
+    giocatori[1].agente_ia = AgenteMonteCarlo(giocatori[1])
+
     # Distribuzione iniziale
     distribuisci_carte(mazzo, tavolo, giocatori, 3)
 
@@ -264,18 +268,43 @@ def gioca_round(giocatori, punteggi):
 
         # Gestione del turno
         if len(giocatore_corrente.carte_mano) > 0:
-            if giocatore_corrente.gioca_mano(tavolo):
-                ultimo_giocatore_presa = turno % 2
+            # Per il giocatore 1, mantieni il comportamento originale
+            if turno % 2 == 0:
+                ha_fatto_presa = giocatore_corrente.gioca_mano(tavolo)
+            else:
+                # Per il giocatore 2 (IA), usa l'AgenteMonteCarlo
+                carta_da_giocare = giocatore_corrente.agente_ia.scegli_mossa(tavolo)
+                prese_possibili = giocatore_corrente.cerca_prese_possibili(carta_da_giocare, tavolo.carte)
 
-            input("\nPremi Enter per continuare...")
+                if prese_possibili:
+                    # Scegli automaticamente la miglior presa
+                    miglior_presa = max(prese_possibili, key=lambda x: (len(x), sum(c.valore for c in x)))
+                    giocatore_corrente.raccogli_carte(carta_da_giocare, miglior_presa, tavolo)
+
+                    # Stampa le mosse dell'IA per il giocatore 1
+                    print(f"\n🤖 IA ha giocato {carta_da_giocare}")
+                    print(f"🤖 Carte prese: {' + '.join(str(carta) for carta in miglior_presa)}")
+
+                    ha_fatto_presa = True
+                else:
+                    tavolo.aggiungi_carta_da_giocatore(carta_da_giocare)
+                    print(f"\n🤖 IA ha lasciato {carta_da_giocare} sul tavolo")
+                    ha_fatto_presa = False
+
+                giocatore_corrente.carte_mano.remove(carta_da_giocare)
+
+                # Pausa per permettere al giocatore 1 di leggere le mosse dell'IA
+                input("\nPremi Enter per continuare...")
+
+            if ha_fatto_presa:
+                ultimo_giocatore_presa = turno % 2
 
         turno += 1
 
-    # Calcolo punteggi del round
+    # Resto del codice rimane invariato
     punti_g1, dettagli_g1 = punteggi[0].calcola_punteggio_round(giocatori[0], giocatori[1])
     punti_g2, dettagli_g2 = punteggi[1].calcola_punteggio_round(giocatori[1], giocatori[0])
 
-    # Aggiorna i punteggi totali
     punteggi[0].aggiungi_punteggio(punti_g1)
     punteggi[1].aggiungi_punteggio(punti_g2)
 

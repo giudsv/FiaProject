@@ -20,6 +20,11 @@ class Carta:
             return self.valore == other.valore and self.seme == other.seme
         return False
 
+    def __hash__(self):
+        """Definisce come creare un hash per l'oggetto Carta."""
+        # Usa una combinazione di seme e valore per creare un hash unico
+        return hash((self.valore, self.seme))
+
     @classmethod
     def da_sigla(cls, sigla):
         """Crea una carta a partire da una sigla come '1C'."""
