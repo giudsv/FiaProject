@@ -3,10 +3,9 @@ from Mazzo import Mazzo
 from Tavolo import Tavolo
 from Giocatore import Giocatore
 from Punteggio import Punteggio
-from AgenteMontecarlo import AgenteMonteCarlo
 import os
 import time
-
+from AgenteMonteCarlo import AgenteMonteCarlo
 
 def clear_screen():
     """Pulisce lo schermo del terminale in modo cross-platform."""
@@ -139,7 +138,7 @@ def spiega_punteggio(g1_details, g2_details):
     # Denari
     print(f"\n• Carte di denari:")
     print(f"  Giocatore 1: {g1_details['denari']} denari")
-    print(f"  Giocatore 2: {g2_details['denari']} denari")  # Modificato per usare denari invece di denari_avversario
+    print(f"  Giocatore 2: {g2_details['denari']} denari")
     if g1_details['denari'] > g2_details['denari']:
         print("  ➜ Punto denari al Giocatore 1")
     elif g2_details['denari'] > g1_details['denari']:
@@ -157,14 +156,13 @@ def spiega_punteggio(g1_details, g2_details):
         print("  ➜ Nessun punto assegnato")
 
     # Scope
+    print("\n• Scope:")
     if g1_details['scope'] > 0 or g2_details['scope'] > 0:
-        print("\n• Scope:")
         if g1_details['scope'] > 0:
             print(f"  ➜ {g1_details['scope']} punti al Giocatore 1")
         if g2_details['scope'] > 0:
             print(f"  ➜ {g2_details['scope']} punti al Giocatore 2")
     else:
-        print("\n• Scope:")
         print("  ➜ Nessuna scopa realizzata")
 
     # Primiera
@@ -186,23 +184,28 @@ def mostra_punteggio_round(punteggi_g1, punteggi_g2, giocatori):
     print("═" * 45)
 
     # Definizione delle categorie e loro nomi per la visualizzazione
-    categorie = {
-        'carte_lungo': 'Carte lungo',
-        'denari': 'Denari',
-        'settebello': 'Settebello',
-        'scope': 'Scope',
-        'primiera': 'Primiera',
-        'totale': 'TOTALE'
-    }
+    categorie = [
+        ('carte_lungo', 'Carte lungo'),
+        ('denari', 'Denari'),
+        ('settebello', 'Settebello'),
+        ('scope', 'Scope'),
+        ('primiera', 'Primiera'),
+        ('totale', 'TOTALE')
+    ]
 
     # Stampa ogni categoria con il suo punteggio
-    for chiave, nome in categorie.items():
-        g1 = punteggi_g1[chiave]
-        # Per il giocatore 2, gestisci il caso speciale dei denari
-        if chiave == 'denari':
-            g2 = punteggi_g2['denari']  # Usa il valore diretto dei denari
-        else:
+    for chiave, nome in categorie:
+        # Per ogni categoria, mostriamo 1 se il punto è stato assegnato, 0 altrimenti
+        if chiave == 'scope':
+            g1 = punteggi_g1[chiave]  # Per le scope, mostriamo il numero effettivo
             g2 = punteggi_g2[chiave]
+        elif chiave == 'totale':
+            g1 = punteggi_g1[chiave]  # Per il totale, mostriamo la somma
+            g2 = punteggi_g2[chiave]
+        else:
+            # Per tutte le altre categorie, mostriamo 1 o 0
+            g1 = 1 if punteggi_g1[chiave] else 0
+            g2 = 1 if punteggi_g2[chiave] else 0
 
         # Formatta l'output con spaziatura fissa
         print(f"{nome:<14} {g1:^11} {g2:^11}")
@@ -211,7 +214,7 @@ def mostra_punteggio_round(punteggi_g1, punteggi_g2, giocatori):
     mostra_carte_raccolte(1, giocatori[0].carte_raccolte)
     mostra_carte_raccolte(2, giocatori[1].carte_raccolte)
 
-    # Spiega l'assegnazione dei punteggi
+    # Spiega l'assegnazione dei punteggi in dettaglio
     spiega_punteggio(punteggi_g1, punteggi_g2)
 
 
