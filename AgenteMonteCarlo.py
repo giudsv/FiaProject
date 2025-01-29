@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from MonteCarloTreeSearch import MonteCarlo, Node
+from GameState import ScopaGameState
 
 class AgenteMonteCarlo:
     def __init__(self, giocatore):
