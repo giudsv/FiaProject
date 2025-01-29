@@ -28,31 +28,6 @@ class AgenteMonteCarlo:
         root_node.discovery_factor = 0.4  # Aumentato per favorire l'esplorazione
         mcts = MonteCarlo(root_node)
 
-        def child_finder(node, montecarlo):
-            """
-            Funzione che esplora i possibili nodi figli a partire dal nodo corrente.
-            """
-            possible_moves = node.state.get_possible_moves()
-            for mossa in possible_moves:
-                nuovo_stato = node.state.move(mossa)
-                child = Node(nuovo_stato)
-                child.player_number = 3 - node.player_number
-
-                # Valutazione euristica per policy value
-                policy_value = self._calculate_policy_value(nuovo_stato, mossa)
-                child.policy_value = policy_value
-
-                # Discovery factor dinamico
-                child.discovery_factor = self._calculate_discovery_factor(nuovo_stato)
-
-                node.add_child(child)
-
-        def node_evaluator(node, montecarlo):
-            """
-            Funzione per valutare il valore di un nodo.
-            """
-            return node.state.evaluate_state()
-
         mcts.child_finder = child_finder
         mcts.node_evaluator = node_evaluator
 
@@ -62,6 +37,31 @@ class AgenteMonteCarlo:
         # Scegli il nodo migliore in base alla simulazione
         best_node = mcts.make_choice()
         return best_node.state.last_move[0]  # Restituisce la carta da giocare
+
+    def child_finder(node, montecarlo):
+        """
+        Funzione che esplora i possibili nodi figli a partire dal nodo corrente.
+        """
+        possible_moves = node.state.get_possible_moves()
+        for mossa in possible_moves:
+            nuovo_stato = node.state.move(mossa)
+            child = Node(nuovo_stato)
+            child.player_number = 3 - node.player_number
+
+        # Valutazione euristica per policy value
+        policy_value = self._calculate_policy_value(nuovo_stato, mossa)
+        child.policy_value = policy_value
+
+        # Discovery factor dinamico
+        child.discovery_factor = self._calculate_discovery_factor(nuovo_stato)
+
+        node.add_child(child)
+
+    def node_evaluator(node, montecarlo):
+        """
+        Funzione per valutare il valore di un nodo.
+        """
+        return node.state.evaluate_state()
 
     def _calculate_policy_value(self, state, mossa):
         """
