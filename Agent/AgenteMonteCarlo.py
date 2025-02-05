@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 from MonteCarloTreeSearch import MonteCarlo, Node
-from GameState import ScopaGameState
+from Agent.GameState import ScopaGameState
 
 class AgenteMonteCarlo:
     def __init__(self, giocatore):
@@ -28,8 +28,8 @@ class AgenteMonteCarlo:
         root_node.discovery_factor = 0.4  # Aumentato per favorire l'esplorazione
         mcts = MonteCarlo(root_node)
 
-        mcts.child_finder = child_finder
-        mcts.node_evaluator = node_evaluator
+        mcts.child_finder = self.child_finder
+        mcts.node_evaluator = self.node_evaluator
 
         # Aumentato il numero di simulazioni per migliorare l'affidabilità
         mcts.simulate(1000)
@@ -38,7 +38,7 @@ class AgenteMonteCarlo:
         best_node = mcts.make_choice()
         return best_node.state.last_move[0]  # Restituisce la carta da giocare
 
-    def child_finder(node, montecarlo):
+    def child_finder(self, node, montecarlo):
         """
         Funzione che esplora i possibili nodi figli a partire dal nodo corrente.
         """
@@ -48,16 +48,16 @@ class AgenteMonteCarlo:
             child = Node(nuovo_stato)
             child.player_number = 3 - node.player_number
 
-        # Valutazione euristica per policy value
-        policy_value = self._calculate_policy_value(nuovo_stato, mossa)
-        child.policy_value = policy_value
+            # Valutazione euristica per policy value
+            policy_value = self._calculate_policy_value(nuovo_stato, mossa)
+            child.policy_value = policy_value
 
-        # Discovery factor dinamico
-        child.discovery_factor = self._calculate_discovery_factor(nuovo_stato)
+            # Discovery factor dinamico
+            child.discovery_factor = self._calculate_discovery_factor(nuovo_stato)
 
-        node.add_child(child)
+            node.add_child(child)
 
-    def node_evaluator(node, montecarlo):
+    def node_evaluator(self, node, montecarlo):
         """
         Funzione per valutare il valore di un nodo.
         """

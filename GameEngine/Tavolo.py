@@ -1,6 +1,6 @@
 
-from Carta import Carta
-from Mazzo import Mazzo
+from GameEngine.Carta import Carta
+from GameEngine.Mazzo import Mazzo
 
 class Tavolo:
 

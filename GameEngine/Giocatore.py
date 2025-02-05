@@ -1,6 +1,7 @@
-from Carta import Carta
-from Tavolo import Tavolo
-from Mazzo import Mazzo
+from GameEngine.Carta import Carta
+from GameEngine.Tavolo import Tavolo
+from GameEngine.Mazzo import Mazzo
+
 import os
 import time
 

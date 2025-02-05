@@ -1,11 +1,11 @@
-from Carta import Carta
-from Mazzo import Mazzo
-from Tavolo import Tavolo
-from Giocatore import Giocatore
-from Punteggio import Punteggio
+from GameEngine.Mazzo import Mazzo
+from GameEngine.Tavolo import Tavolo
+from GameEngine.Giocatore import Giocatore
+from GameEngine.Punteggio import Punteggio
+from GameEngine.Carta import Carta
 import os
 import time
-from AgenteMonteCarlo import AgenteMonteCarlo
+from Agent.AgenteMonteCarlo import AgenteMonteCarlo
 
 def clear_screen():
     """Pulisce lo schermo del terminale in modo cross-platform."""
