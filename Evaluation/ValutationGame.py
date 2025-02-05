@@ -89,8 +89,8 @@ def crea_report(num_partite, statistiche, tempi, punteggi_partite):
 
         # Statistiche generali
         f.write(f"Numero totale partite: {num_partite}\n")
-        f.write(f"Vittorie Agente 1: {statistiche['vittorie_g1']}\n")
-        f.write(f"Vittorie Agente 2: {statistiche['vittorie_g2']}\n")
+        f.write(f"Vittorie Agente 1: {statistiche['vittorie_g1']} ({(statistiche['vittorie_g1'] / num_partite) * 100:.2f}%)\n")
+        f.write(f"Vittorie Agente 2: {statistiche['vittorie_g2']} ({(statistiche['vittorie_g2'] / num_partite) * 100:.2f}%)\n")
         f.write(f"Durata media partita (round): {statistiche['media_round']:.2f}\n")
         f.write(f"Punteggio medio Agente 1: {statistiche['media_punti_g1']:.2f}\n")
         f.write(f"Punteggio medio Agente 2: {statistiche['media_punti_g2']:.2f}\n")
