@@ -32,7 +32,7 @@ class AgenteMonteCarlo:
         mcts.node_evaluator = self.node_evaluator
 
         # Aumentato il numero di simulazioni per migliorare l'affidabilità
-        mcts.simulate(1000)
+        mcts.simulate(100000000000000000)
 
         # Scegli il nodo migliore in base alla simulazione
         best_node = mcts.make_choice()
