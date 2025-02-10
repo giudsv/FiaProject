@@ -1,0 +1,515 @@
+=== REPORT VALUTAZIONE AGENTE MONTE CARLO ===
+
+Tempo totale di esecuzione: 531.48 secondi
+Tempo medio per partita: 5.31 secondi
+
+Numero totale partite: 100
+Vittorie Agente 1: 51 (51.00%)
+Vittorie Agente 2: 49 (49.00%)
+Durata media partita (round): 3.81
+Punteggio medio Agente 1: 9.93
+Punteggio medio Agente 2: 9.65
+Scope totali Agente 1: 282
+Scope totali Agente 2: 284
+
+=== DETTAGLI PARTITE ===
+Partita 1:
+Punteggio Agente 1: 6
+Punteggio Agente 2: 11
+Tempo partita: 4.16 secondi
+
+Partita 2:
+Punteggio Agente 1: 8
+Punteggio Agente 2: 12
+Tempo partita: 5.54 secondi
+
+Partita 3:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 3
+Tempo partita: 4.13 secondi
+
+Partita 4:
+Punteggio Agente 1: 8
+Punteggio Agente 2: 14
+Tempo partita: 5.51 secondi
+
+Partita 5:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 4
+Tempo partita: 4.12 secondi
+
+Partita 6:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 6
+Tempo partita: 4.16 secondi
+
+Partita 7:
+Punteggio Agente 1: 9
+Punteggio Agente 2: 12
+Tempo partita: 5.52 secondi
+
+Partita 8:
+Punteggio Agente 1: 7
+Punteggio Agente 2: 11
+Tempo partita: 5.51 secondi
+
+Partita 9:
+Punteggio Agente 1: 4
+Punteggio Agente 2: 11
+Tempo partita: 4.12 secondi
+
+Partita 10:
+Punteggio Agente 1: 8
+Punteggio Agente 2: 13
+Tempo partita: 5.52 secondi
+
+Partita 11:
+Punteggio Agente 1: 8
+Punteggio Agente 2: 12
+Tempo partita: 5.55 secondi
+
+Partita 12:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 10
+Tempo partita: 5.54 secondi
+
+Partita 13:
+Punteggio Agente 1: 7
+Punteggio Agente 2: 14
+Tempo partita: 5.56 secondi
+
+Partita 14:
+Punteggio Agente 1: 13
+Punteggio Agente 2: 7
+Tempo partita: 4.16 secondi
+
+Partita 15:
+Punteggio Agente 1: 14
+Punteggio Agente 2: 8
+Tempo partita: 4.19 secondi
+
+Partita 16:
+Punteggio Agente 1: 7
+Punteggio Agente 2: 11
+Tempo partita: 4.17 secondi
+
+Partita 17:
+Punteggio Agente 1: 15
+Punteggio Agente 2: 7
+Tempo partita: 4.18 secondi
+
+Partita 18:
+Punteggio Agente 1: 10
+Punteggio Agente 2: 13
+Tempo partita: 5.57 secondi
+
+Partita 19:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 10
+Tempo partita: 5.66 secondi
+
+Partita 20:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 10
+Tempo partita: 5.57 secondi
+
+Partita 21:
+Punteggio Agente 1: 8
+Punteggio Agente 2: 14
+Tempo partita: 4.19 secondi
+
+Partita 22:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 12
+Tempo partita: 7.00 secondi
+
+Partita 23:
+Punteggio Agente 1: 5
+Punteggio Agente 2: 11
+Tempo partita: 5.58 secondi
+
+Partita 24:
+Punteggio Agente 1: 10
+Punteggio Agente 2: 14
+Tempo partita: 7.04 secondi
+
+Partita 25:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 2
+Tempo partita: 2.81 secondi
+
+Partita 26:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 4
+Tempo partita: 4.30 secondi
+
+Partita 27:
+Punteggio Agente 1: 7
+Punteggio Agente 2: 16
+Tempo partita: 5.57 secondi
+
+Partita 28:
+Punteggio Agente 1: 6
+Punteggio Agente 2: 11
+Tempo partita: 5.56 secondi
+
+Partita 29:
+Punteggio Agente 1: 9
+Punteggio Agente 2: 11
+Tempo partita: 5.56 secondi
+
+Partita 30:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 7
+Tempo partita: 5.58 secondi
+
+Partita 31:
+Punteggio Agente 1: 7
+Punteggio Agente 2: 11
+Tempo partita: 4.13 secondi
+
+Partita 32:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 7
+Tempo partita: 4.15 secondi
+
+Partita 33:
+Punteggio Agente 1: 1
+Punteggio Agente 2: 14
+Tempo partita: 4.17 secondi
+
+Partita 34:
+Punteggio Agente 1: 8
+Punteggio Agente 2: 11
+Tempo partita: 5.49 secondi
+
+Partita 35:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 10
+Tempo partita: 5.51 secondi
+
+Partita 36:
+Punteggio Agente 1: 6
+Punteggio Agente 2: 13
+Tempo partita: 4.14 secondi
+
+Partita 37:
+Punteggio Agente 1: 13
+Punteggio Agente 2: 5
+Tempo partita: 4.15 secondi
+
+Partita 38:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 7
+Tempo partita: 5.54 secondi
+
+Partita 39:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 3
+Tempo partita: 2.76 secondi
+
+Partita 40:
+Punteggio Agente 1: 10
+Punteggio Agente 2: 11
+Tempo partita: 5.52 secondi
+
+Partita 41:
+Punteggio Agente 1: 15
+Punteggio Agente 2: 7
+Tempo partita: 5.53 secondi
+
+Partita 42:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 5
+Tempo partita: 4.13 secondi
+
+Partita 43:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 7
+Tempo partita: 4.12 secondi
+
+Partita 44:
+Punteggio Agente 1: 5
+Punteggio Agente 2: 11
+Tempo partita: 4.12 secondi
+
+Partita 45:
+Punteggio Agente 1: 13
+Punteggio Agente 2: 9
+Tempo partita: 5.52 secondi
+
+Partita 46:
+Punteggio Agente 1: 9
+Punteggio Agente 2: 11
+Tempo partita: 5.52 secondi
+
+Partita 47:
+Punteggio Agente 1: 14
+Punteggio Agente 2: 10
+Tempo partita: 8.30 secondi
+
+Partita 48:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 9
+Tempo partita: 5.59 secondi
+
+Partita 49:
+Punteggio Agente 1: 8
+Punteggio Agente 2: 11
+Tempo partita: 7.18 secondi
+
+Partita 50:
+Punteggio Agente 1: 7
+Punteggio Agente 2: 11
+Tempo partita: 5.65 secondi
+
+Partita 51:
+Punteggio Agente 1: 4
+Punteggio Agente 2: 15
+Tempo partita: 4.26 secondi
+
+Partita 52:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 8
+Tempo partita: 5.64 secondi
+
+Partita 53:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 10
+Tempo partita: 5.64 secondi
+
+Partita 54:
+Punteggio Agente 1: 13
+Punteggio Agente 2: 11
+Tempo partita: 5.59 secondi
+
+Partita 55:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 7
+Tempo partita: 5.77 secondi
+
+Partita 56:
+Punteggio Agente 1: 14
+Punteggio Agente 2: 10
+Tempo partita: 6.89 secondi
+
+Partita 57:
+Punteggio Agente 1: 10
+Punteggio Agente 2: 13
+Tempo partita: 5.56 secondi
+
+Partita 58:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 7
+Tempo partita: 5.50 secondi
+
+Partita 59:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 14
+Tempo partita: 8.26 secondi
+
+Partita 60:
+Punteggio Agente 1: 13
+Punteggio Agente 2: 13
+Tempo partita: 6.88 secondi
+
+Partita 61:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 8
+Tempo partita: 5.56 secondi
+
+Partita 62:
+Punteggio Agente 1: 10
+Punteggio Agente 2: 11
+Tempo partita: 7.18 secondi
+
+Partita 63:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 11
+Tempo partita: 6.95 secondi
+
+Partita 64:
+Punteggio Agente 1: 14
+Punteggio Agente 2: 1
+Tempo partita: 4.15 secondi
+
+Partita 65:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 4
+Tempo partita: 4.23 secondi
+
+Partita 66:
+Punteggio Agente 1: 3
+Punteggio Agente 2: 16
+Tempo partita: 5.63 secondi
+
+Partita 67:
+Punteggio Agente 1: 13
+Punteggio Agente 2: 11
+Tempo partita: 7.04 secondi
+
+Partita 68:
+Punteggio Agente 1: 4
+Punteggio Agente 2: 11
+Tempo partita: 4.17 secondi
+
+Partita 69:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 9
+Tempo partita: 5.67 secondi
+
+Partita 70:
+Punteggio Agente 1: 10
+Punteggio Agente 2: 11
+Tempo partita: 5.59 secondi
+
+Partita 71:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 5
+Tempo partita: 4.25 secondi
+
+Partita 72:
+Punteggio Agente 1: 10
+Punteggio Agente 2: 13
+Tempo partita: 6.87 secondi
+
+Partita 73:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 2
+Tempo partita: 2.74 secondi
+
+Partita 74:
+Punteggio Agente 1: 15
+Punteggio Agente 2: 9
+Tempo partita: 5.48 secondi
+
+Partita 75:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 12
+Tempo partita: 5.50 secondi
+
+Partita 76:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 9
+Tempo partita: 5.53 secondi
+
+Partita 77:
+Punteggio Agente 1: 3
+Punteggio Agente 2: 12
+Tempo partita: 4.17 secondi
+
+Partita 78:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 9
+Tempo partita: 7.01 secondi
+
+Partita 79:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 10
+Tempo partita: 7.02 secondi
+
+Partita 80:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 11
+Tempo partita: 5.68 secondi
+
+Partita 81:
+Punteggio Agente 1: 14
+Punteggio Agente 2: 10
+Tempo partita: 5.54 secondi
+
+Partita 82:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 11
+Tempo partita: 7.03 secondi
+
+Partita 83:
+Punteggio Agente 1: 1
+Punteggio Agente 2: 12
+Tempo partita: 4.13 secondi
+
+Partita 84:
+Punteggio Agente 1: 13
+Punteggio Agente 2: 11
+Tempo partita: 5.50 secondi
+
+Partita 85:
+Punteggio Agente 1: 5
+Punteggio Agente 2: 11
+Tempo partita: 5.55 secondi
+
+Partita 86:
+Punteggio Agente 1: 10
+Punteggio Agente 2: 11
+Tempo partita: 5.52 secondi
+
+Partita 87:
+Punteggio Agente 1: 8
+Punteggio Agente 2: 13
+Tempo partita: 5.51 secondi
+
+Partita 88:
+Punteggio Agente 1: 7
+Punteggio Agente 2: 11
+Tempo partita: 7.05 secondi
+
+Partita 89:
+Punteggio Agente 1: 10
+Punteggio Agente 2: 12
+Tempo partita: 6.96 secondi
+
+Partita 90:
+Punteggio Agente 1: 13
+Punteggio Agente 2: 7
+Tempo partita: 5.68 secondi
+
+Partita 91:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 7
+Tempo partita: 5.71 secondi
+
+Partita 92:
+Punteggio Agente 1: 0
+Punteggio Agente 2: 12
+Tempo partita: 2.80 secondi
+
+Partita 93:
+Punteggio Agente 1: 8
+Punteggio Agente 2: 15
+Tempo partita: 5.64 secondi
+
+Partita 94:
+Punteggio Agente 1: 7
+Punteggio Agente 2: 12
+Tempo partita: 5.61 secondi
+
+Partita 95:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 8
+Tempo partita: 5.52 secondi
+
+Partita 96:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 8
+Tempo partita: 5.69 secondi
+
+Partita 97:
+Punteggio Agente 1: 14
+Punteggio Agente 2: 7
+Tempo partita: 5.60 secondi
+
+Partita 98:
+Punteggio Agente 1: 11
+Punteggio Agente 2: 4
+Tempo partita: 4.39 secondi
+
+Partita 99:
+Punteggio Agente 1: 12
+Punteggio Agente 2: 6
+Tempo partita: 6.00 secondi
+
+Partita 100:
+Punteggio Agente 1: 15
+Punteggio Agente 2: 0
+Tempo partita: 2.82 secondi
+
