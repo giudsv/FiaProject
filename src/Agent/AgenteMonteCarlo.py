@@ -1,5 +1,5 @@
-from src.MonteCarloTreeSearch import MonteCarlo, Node
-from src.Agent.GameState import ScopaGameState
+from MonteCarloTreeSearch import MonteCarlo, Node
+from Agent.GameState import ScopaGameState
 
 class AgenteMonteCarlo:
     def __init__(self, giocatore):

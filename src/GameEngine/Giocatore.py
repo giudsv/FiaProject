@@ -1,6 +1,8 @@
 import os
 import time
-
+from GameEngine.Carta import Carta
+from GameEngine.Mazzo import Mazzo
+from GameEngine.Tavolo import Tavolo
 class Giocatore:
     def __init__(self):
         self.carte_mano = []

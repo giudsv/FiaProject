@@ -1,4 +1,4 @@
-from src.GameEngine.Carta import Carta
+from GameEngine.Carta import Carta
 import random
 
 class Mazzo:
