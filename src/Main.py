@@ -42,7 +42,7 @@ def distribuisci_carte(mazzo, tavolo, giocatori, num_carte):
             if mazzo.carte:
                 carta = mazzo.carte[0]
                 tavolo.aggiungi_carta_da_mazzo(carta, mazzo)
-       # time.sleep(1)
+                time.sleep(1)
 
     # Poi distribuisci ai giocatori
     print("🎴 Distribuisco le carte ai giocatori...")
@@ -51,7 +51,7 @@ def distribuisci_carte(mazzo, tavolo, giocatori, num_carte):
             if mazzo.carte:
                 carta = mazzo.carte[0]
                 giocatore.aggiungi_mano(carta, mazzo)
-   # time.sleep(1)
+                time.sleep(1)
 
 
 def mostra_stato_gioco(giocatore_num, tavolo, giocatore_attivo, giocatore_inattivo):
@@ -252,7 +252,7 @@ def gioca_round(giocatori, punteggi):
                         if mazzo.carte:
                             carta = mazzo.carte[0]
                             giocatore.aggiungi_mano(carta, mazzo)
-               # time.sleep(1)
+                            time.sleep(1)
             else:
                 # Assegna le carte rimanenti all'ultimo giocatore che ha fatto presa
                 if ultimo_giocatore_presa is not None and tavolo.carte:

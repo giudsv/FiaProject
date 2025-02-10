@@ -1,7 +1,5 @@
-from copy import deepcopy
-
-from MonteCarloTreeSearch import MonteCarlo, Node
-from Agent.GameState import ScopaGameState
+from src.MonteCarloTreeSearch import MonteCarlo, Node
+from src.Agent.GameState import ScopaGameState
 
 class AgenteMonteCarlo:
     def __init__(self, giocatore):
@@ -32,7 +30,7 @@ class AgenteMonteCarlo:
         mcts.node_evaluator = self.node_evaluator
 
         # Aumentato il numero di simulazioni per migliorare l'affidabilità
-        mcts.simulate(100000000000000000)
+        mcts.simulate(1000)
 
         # Scegli il nodo migliore in base alla simulazione
         best_node = mcts.make_choice()

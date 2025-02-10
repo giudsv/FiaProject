@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-from MonteCarloTreeSearch import MonteCarlo, Node
 
 class ScopaGameState:
     def __init__(self, giocatore, tavolo, carte_mano, carte_raccolte_giocatore, carte_raccolte_avversario):

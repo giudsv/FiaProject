@@ -1,7 +1,3 @@
-
-from GameEngine.Carta import Carta
-from GameEngine.Mazzo import Mazzo
-
 class Tavolo:
 
     def __init__(self):

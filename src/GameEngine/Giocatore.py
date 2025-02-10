@@ -1,7 +1,3 @@
-from GameEngine.Carta import Carta
-from GameEngine.Tavolo import Tavolo
-from GameEngine.Mazzo import Mazzo
-
 import os
 import time
 
@@ -110,8 +106,8 @@ class Giocatore:
         # La scopa viene assegnata solo se il tavolo è vuoto e non è l'ultima mano
         if len(tavolo.carte) == 0 and len(self.carte_mano) > 0:
             self.scope += 1
-            # print("\n🌟 SCOPA! 🌟")
-            # time.sleep(1.5)
+            print("\n🌟 SCOPA! 🌟")
+            time.sleep(1.5)
 
     def gioca_mano(self, tavolo):
         """Permette al giocatore di scegliere una carta e gestisce la raccolta"""
@@ -168,7 +164,7 @@ class Giocatore:
                     print("\n📌 Nessuna presa possibile, carta lasciata sul tavolo")
 
                 self.carte_mano.remove(carta_da_giocare)
-                # time.sleep(1.5)
+                time.sleep(1.5)
                 return ha_fatto_presa
 
             except ValueError:
