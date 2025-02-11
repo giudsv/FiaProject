@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-
 class ScopaGameState:
     def __init__(self, giocatore, tavolo, carte_mano, carte_raccolte_giocatore, carte_raccolte_avversario):
         """
@@ -16,8 +15,7 @@ class ScopaGameState:
         self.tavolo = deepcopy(tavolo)  # Copia profonda del tavolo per evitare modifiche indesiderate
         self.carte_mano = deepcopy(carte_mano)  # Copia profonda delle carte in mano
         self.carte_raccolte_giocatore = deepcopy(carte_raccolte_giocatore)  # Copia delle carte raccolte dal giocatore
-        self.carte_raccolte_avversario = deepcopy(
-            carte_raccolte_avversario)  # Copia delle carte raccolte dall'avversario
+        self.carte_raccolte_avversario = deepcopy(carte_raccolte_avversario)  # Copia delle carte raccolte dall'avversario
         self.last_move = None  # Inizializza l'ultima mossa come None
 
     def get_possible_moves(self):
@@ -31,9 +29,7 @@ class ScopaGameState:
 
             if prese_possibili:
                 # Ordina le prese possibili per valore strategico
-                prese_ordinate = sorted(prese_possibili,
-                                        key=lambda x: self._valuta_presa(carta, x),
-                                        reverse=True)
+                prese_ordinate = sorted(prese_possibili, key=lambda x: self._valuta_presa(carta, x), reverse=True)
                 for presa in prese_ordinate:
                     # Aggiunge la mossa (carta, presa) alla lista delle mosse
                     mosse.append((carta, presa))
@@ -74,16 +70,19 @@ class ScopaGameState:
         """Valuta la priorità di scarto di una carta"""
         score = 0
 
+        # Conta carte di denari avversario
+        denari_avversario = sum(1 for c in self.carte_raccolte_avversario if c.seme == 'Denari')
+
         # Penalizza lo scarto di carte strategiche
-        if carta.seme == 'Denari':
+        if carta.seme == 'Denari' and denari_avversario <6:
             score -= 30
         if carta.valore == 7:
             score -= 25
         if carta.valore in [6, 1]:
             score -= 15
 
-        # Favorisce lo scarto di carte basse non denari
-        if carta.valore <= 4 and carta.seme != 'Denari':
+        # Favorisce lo scarto di carte basse non denari, a meno che l'avversario abbia già 6 o più denari
+        if carta.valore <= 4 and (carta.seme != 'Denari' or sum( 1 for c in self.carte_raccolte_avversario if c.seme == 'Denari') >= 6):
             score += 10
 
         return score
@@ -98,14 +97,14 @@ class ScopaGameState:
 
     def move(self, mossa):
         """Applica una mossa e restituisce un nuovo stato"""
-        carta, presa = mossa  # Ora questa riga funzionerà correttamente
+        carta, presa = mossa  # Estrai la carta e la presa dalla mossa
         nuovo_stato = deepcopy(self)  # Crea una copia dello stato attuale
 
         # Rimuovi la carta dalla mano
         nuovo_stato.carte_mano.remove(carta)
 
         if presa:
-            # Raccogli le carte prese
+            # Raccogli le carte prese e aggiornare lo stato del tavolo
             for carta_presa in presa:
                 nuovo_stato.tavolo.carte.remove(carta_presa)
                 nuovo_stato.carte_raccolte_giocatore.append(carta_presa)
@@ -123,7 +122,7 @@ class ScopaGameState:
         return nuovo_stato
 
     def evaluate_state(self):
-        """Valuta lo stato corrente con pesi ottimizzati"""
+        """Valuta lo stato corrente con pesi di "stato"""
         punteggio = 0
 
         # Scope (peso aumentato)
@@ -134,8 +133,7 @@ class ScopaGameState:
         punteggio += denari * (8 if denari >= 5 else 5)
 
         # Settebello (peso aumentato)
-        if any(carta.seme == 'Denari' and carta.valore == 7
-               for carta in self.carte_raccolte_giocatore):
+        if any(carta.seme == 'Denari' and carta.valore == 7 for carta in self.carte_raccolte_giocatore):
             punteggio += 20
 
         # Carte per primiera (nuovo sistema di punteggio)
@@ -150,4 +148,4 @@ class ScopaGameState:
         if len(self.tavolo.carte) < 3:
             punteggio += 5
 
-        return min(max(punteggio / 150, -1), 1)  # Punteggio tra -1 e 1
+        return min(max(punteggio / 150, -1), 1)  # Normalizza il punteggio tra -1 e 1

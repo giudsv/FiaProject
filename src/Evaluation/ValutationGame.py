@@ -2,11 +2,18 @@ import os
 import time
 from datetime import datetime
 
-from src.GameEngine.Mazzo import Mazzo
-from src.GameEngine.Tavolo import Tavolo
-from src.GameEngine.Giocatore import Giocatore
-from src.GameEngine.Punteggio import Punteggio
-from src.Agent.AgenteMonteCarlo import AgenteMonteCarlo
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+
+
+from GameEngine.Mazzo import Mazzo
+from GameEngine.Tavolo import Tavolo
+from GameEngine.Giocatore import Giocatore
+from GameEngine.Punteggio import Punteggio
+from Agent.AgenteMonteCarlo import AgenteMonteCarlo
 
 
 def gioca_round_ai(giocatori, punteggi, turno_iniziale):
